@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="breadcumb-area" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="bradcumb-title text-center">
+                    <h2>Search</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="breadcumb-nav">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Search</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="contact-area section_padding_80">
+    <div class="container">
+        <div class="contact-form-area">
+            <div class="row">
+                <div class="col-12 col-md-7 item">
+                    <div class="contact-form wow fadeInUpBig" data-wow-delay="0.6s">
+                        <form method="GET" action="/search">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="query" id="query" placeholder="Type something...">
+                                <button type="submit" class="btn contact-btn">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<section class="blog_area section_padding_0_80">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="row">
+                  {% if request.args.get('query') %}
+                  <h3>Search results for "{{ request.args.get('query') }}"</h3>
+                  {% endif %}
+                    {% for meal in meals %}
+                    <div class="col-12">
+                        <div class="single-post wow fadeInUp" data-wow-delay=".2s">
+                            <div class="post-thumb">
+                                <img src="img/blog-img/1.jpg" alt="">
+                            </div>
+                            <div class="post-content">
+                                <div class="post-meta d-flex">
+                                    <div class="post-author-date-area d-flex">
+                                        <div class="post-author">
+                                            <a href="#">By {{ meal.user_info.name }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('main.meal_details', meal_id=meal.id) }}">
+                                    <h2 class="post-headline">{{ meal.name }}</h2>
+                                </a>
+                                <p>{{ meal.recipe| truncate(100) }}</p>
+                                <a href="{{ url_for('main.meal_details', meal_id=meal.id) }}" class="read-more">Continue Reading..</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+</section>
+{% endblock %}
